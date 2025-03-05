@@ -35,11 +35,16 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
-        Vector3 dir = transform.forward * curMovementInput.y + transform.right * curMovementInput.x;
-        dir *= moveSpeed;
-        dir.y = rb.velocity.y;
+        float acceleration = 10f;
+        Vector3 targetVelocity = (transform.forward * curMovementInput.y + transform.right * curMovementInput.x) * moveSpeed;
+        targetVelocity.y = rb.velocity.y;
+        rb.velocity = Vector3.Lerp(rb.velocity, targetVelocity, Time.deltaTime * acceleration);
 
-        rb.velocity = dir;
+        //Vector3 dir = transform.forward * curMovementInput.y + transform.right * curMovementInput.x;
+        //dir *= moveSpeed;
+        //dir.y = rb.velocity.y;
+
+        //rb.velocity = dir;
     }
 
     public void OnMove(InputAction.CallbackContext context)
