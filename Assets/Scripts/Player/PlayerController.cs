@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement")]
     public float moveSpeed;
+    public float jumpPower;
+    public float extraGravity;
     private Vector2 curMovementInput;
 
 
@@ -31,20 +33,16 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
+        ExtraGravity();
     }
 
     void Move()
     {
-        float acceleration = 10f;
+        //Using Vector3.Lerp > making the player movement more smooth while moving after player stopped
+        float acceleration = 5f;
         Vector3 targetVelocity = (transform.forward * curMovementInput.y + transform.right * curMovementInput.x) * moveSpeed;
         targetVelocity.y = rb.velocity.y;
         rb.velocity = Vector3.Lerp(rb.velocity, targetVelocity, Time.deltaTime * acceleration);
-
-        //Vector3 dir = transform.forward * curMovementInput.y + transform.right * curMovementInput.x;
-        //dir *= moveSpeed;
-        //dir.y = rb.velocity.y;
-
-        //rb.velocity = dir;
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -53,9 +51,22 @@ public class PlayerController : MonoBehaviour
         {
             curMovementInput = context.ReadValue<Vector2>();
         }
-        else if(context.phase == InputActionPhase.Canceled)
+        else if (context.phase == InputActionPhase.Canceled)
         {
             curMovementInput = Vector2.zero;
         }
+    }
+
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if(context.phase == InputActionPhase.Started)
+        {
+            rb.AddForce(Vector2.up * jumpPower, ForceMode.VelocityChange);
+        }
+    }
+
+    void ExtraGravity()
+    {
+        rb.AddForce(Vector2.down * extraGravity, ForceMode.VelocityChange);
     }
 }

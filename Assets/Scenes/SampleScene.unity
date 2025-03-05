@@ -466,7 +466,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 967417827}
   serializedVersion: 4
-  m_Mass: 20
+  m_Mass: 80
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -513,7 +513,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9645a634e9626b84785de2691a244809, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
+  moveSpeed: 30
+  jumpPower: 20
+  extraGravity: 50
 --- !u!114 &967417832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -568,6 +570,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 6cd91462-064d-4d3b-9a94-7ce5c4980f38
     m_ActionName: New action map/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 967417831}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnJump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 11d67a33-6d24-4128-9dc8-81405af96dc7
+    m_ActionName: Player/Jump[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
