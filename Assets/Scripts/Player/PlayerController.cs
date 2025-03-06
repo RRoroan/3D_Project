@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     public PlayerResource playerResource;
     public AnimationController animationController;
+    public CharacterController characterController;
 
     [Header("Movement")]
     public float moveSpeed;
@@ -33,6 +34,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         playerResource = GetComponent<PlayerResource>();
         animationController = GetComponentInChildren<AnimationController>();
+        characterController = GetComponent<CharacterController>();
     }
     // Start is called before the first frame update
     void Start()
@@ -43,7 +45,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        characterController
     }
 
     private void LateUpdate()
@@ -82,6 +84,7 @@ public class PlayerController : MonoBehaviour
         {
             isJumping = true;
         }
+        
     }
 
     void CameraLook()
@@ -115,19 +118,14 @@ public class PlayerController : MonoBehaviour
                 rb.AddForce(Vector2.up * jumpPower, ForceMode.VelocityChange);
                 playerResource.uiResource.stamina.Subtract(20);
                 animationController.Jump();
-                isJumping = true;
             }
         }
     }
 
     void ExtraGravity()
     {
-        if (!isJumping)
-        {
-            float gravityMultiplier = isJumping ? 0.5f : 2f;
-            rb.AddForce(Vector3.down * extraGravity * gravityMultiplier, ForceMode.Acceleration);
-        }
-
+        float gravityMultiplier = isJumping ? 15f : 2f;
+        rb.AddForce(Vector3.down * extraGravity * gravityMultiplier, ForceMode.Acceleration);
     }
 
     public void OnLook(InputAction.CallbackContext context)
