@@ -12,11 +12,14 @@ public class PlayerController : MonoBehaviour
     private CharacterController characterController;
 
     [Header("Movement Setting")]
-    public float speed;
+    public float walkSpeed;
     public float gravity = 9.81f;
+    public float sprintSpeed;
+    public float sprintTransitSpeed;
     private float verticalVelocity;
     public float jumpHeight;
     private Vector3 curMovementInput;
+    private float speed;
 
     [Header("Look Setting")]
     public Transform cameraContainer;
@@ -44,7 +47,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Check();
     }
 
     private void LateUpdate()
@@ -60,9 +63,32 @@ public class PlayerController : MonoBehaviour
         Move();
     }
 
+    public void Check()
+    {
+        Ray ray = new Ray(transform.position + (transform.up * 3f) + (transform.forward * 3f), Vector3.down);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))
+        {
+            Debug.DrawRay(ray.origin, ray.direction * 10f);
+        }
+
+    }
+
     void Move()
     {
         Vector3 move = transform.forward * curMovementInput.y + transform.right * curMovementInput.x;
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            if (playerResource.uiResource.stamina.curValue > 0)
+            {
+                speed = Mathf.Lerp(speed, sprintSpeed, sprintTransitSpeed * Time.deltaTime);
+                playerResource.uiResource.stamina.Subtract(60 * Time.deltaTime);
+            }
+        }
+        else
+        {
+            speed = Mathf.Lerp(speed, walkSpeed, sprintTransitSpeed * Time.deltaTime);
+        }
         move *= speed;
         
         move.y = VerticalForceCalculation();
@@ -95,6 +121,7 @@ public class PlayerController : MonoBehaviour
             animationController.Stop();
         }
     }
+
 
     public void OnJump(InputAction.CallbackContext context)
     {
