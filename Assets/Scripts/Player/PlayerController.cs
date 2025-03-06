@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
     public PlayerResource playerResource;
+    public AnimationController animationController;
 
     [Header("Movement")]
     public float moveSpeed;
@@ -28,6 +29,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         playerResource = GetComponent<PlayerResource>();
+        animationController = GetComponentInChildren<AnimationController>();
     }
     // Start is called before the first frame update
     void Start()
@@ -77,10 +79,12 @@ public class PlayerController : MonoBehaviour
         if(context.phase == InputActionPhase.Performed)
         {
             curMovementInput = context.ReadValue<Vector2>();
+            animationController.Move();
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
             curMovementInput = Vector2.zero;
+            animationController.Stop();
         }
     }
 
@@ -92,6 +96,7 @@ public class PlayerController : MonoBehaviour
             {
                 rb.AddForce(Vector2.up * jumpPower, ForceMode.VelocityChange);
                 playerResource.uiResource.stamina.Subtract(20);
+                animationController.Jump();
             }
         }
     }
