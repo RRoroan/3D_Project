@@ -17,6 +17,6 @@ public class PlayerResource : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        stamina.Add(stamina.passiveValue * Time.deltaTime);
     }
 }

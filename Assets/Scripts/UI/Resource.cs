@@ -8,6 +8,7 @@ public class Resource : MonoBehaviour
     public float curValue;
     public float maxValue;
     public float startValue;
+    public float passiveValue;
     public Image uiBar;
     // Start is called before the first frame update
     void Start()
@@ -26,12 +27,12 @@ public class Resource : MonoBehaviour
         return curValue / maxValue;
     }
 
-    public void Add(int value)
+    public void Add(float value)
     {
         curValue = Mathf.Min(curValue + value, maxValue);
     }
 
-    public void Subtract(int value)
+    public void Subtract(float value)
     {
         curValue = Mathf.Max(curValue - value, 0);
     }
