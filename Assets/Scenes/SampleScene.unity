@@ -239,8 +239,9 @@ GameObject:
   - component: {fileID: 276030231}
   - component: {fileID: 276030233}
   - component: {fileID: 276030232}
+  - component: {fileID: 276030234}
   m_Layer: 5
-  m_Name: HP
+  m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -305,6 +306,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 276030230}
   m_CullTransparentMesh: 1
+--- !u!114 &276030234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 276030230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e101e8b589a3a024480ca7bc6187ef3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  curValue: 0
+  maxValue: 100
+  startValue: 80
+  uiBar: {fileID: 1999322106}
 --- !u!1 &283200189
 GameObject:
   m_ObjectHideFlags: 0
@@ -315,8 +332,9 @@ GameObject:
   m_Component:
   - component: {fileID: 283200190}
   - component: {fileID: 283200191}
+  - component: {fileID: 283200192}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: Resource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -369,6 +387,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &283200192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 283200189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f776ba51205df10409a317e9629bb748, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: {fileID: 276030234}
+  stamina: {fileID: 1390041376}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -569,6 +601,7 @@ GameObject:
   - component: {fileID: 967417833}
   - component: {fileID: 967417832}
   - component: {fileID: 967417831}
+  - component: {fileID: 967417834}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -655,6 +688,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9645a634e9626b84785de2691a244809, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerResource: {fileID: 0}
   moveSpeed: 30
   jumpPower: 60
   extraGravity: 7
@@ -676,6 +710,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 0}
+  resource: {fileID: 0}
 --- !u!114 &967417833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -754,6 +789,19 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &967417834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 967417827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 024e669727e2172478303ad1e18a3480, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiResource: {fileID: 0}
 --- !u!1 &1156524203
 GameObject:
   m_ObjectHideFlags: 0
@@ -999,8 +1047,9 @@ GameObject:
   - component: {fileID: 1390041373}
   - component: {fileID: 1390041375}
   - component: {fileID: 1390041374}
+  - component: {fileID: 1390041376}
   m_Layer: 5
-  m_Name: SP
+  m_Name: Stamina
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1065,6 +1114,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1390041372}
   m_CullTransparentMesh: 1
+--- !u!114 &1390041376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390041372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e101e8b589a3a024480ca7bc6187ef3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  curValue: 0
+  maxValue: 200
+  startValue: 200
+  uiBar: {fileID: 1626405348}
 --- !u!1 &1426888187
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
+    public PlayerResource playerResource;
 
     [Header("Movement")]
     public float moveSpeed;
@@ -26,6 +27,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        playerResource = GetComponent<PlayerResource>();
     }
     // Start is called before the first frame update
     void Start()
@@ -86,7 +88,11 @@ public class PlayerController : MonoBehaviour
     {
         if(context.phase == InputActionPhase.Started)
         {
-            rb.AddForce(Vector2.up * jumpPower, ForceMode.VelocityChange);
+            if (playerResource.uiResource.stamina.curValue >= 20f)
+            {
+                rb.AddForce(Vector2.up * jumpPower, ForceMode.VelocityChange);
+                playerResource.uiResource.stamina.Subtract(20);
+            }
         }
     }
 

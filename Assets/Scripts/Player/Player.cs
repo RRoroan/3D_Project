@@ -5,11 +5,13 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public PlayerController controller;
+    public PlayerResource resource;
 
     private void Awake()
     {
         CharacterManager.Instance.Player = this;
         controller = GetComponent<PlayerController>();
+        resource = GetComponent<PlayerResource>();
     }
     // Start is called before the first frame update
     void Start()
