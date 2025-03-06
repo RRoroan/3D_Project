@@ -13,6 +13,9 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed;
     public float jumpPower;
     public float extraGravity;
+    public bool isGround;
+    public bool isJumping;
+    public LayerMask layerMask;
     private Vector2 curMovementInput;
 
     [Header("Look")]
@@ -55,6 +58,7 @@ public class PlayerController : MonoBehaviour
     {
         Move();
         ExtraGravity();
+        CheckGround();
     }
 
     void Move()
@@ -64,6 +68,20 @@ public class PlayerController : MonoBehaviour
         Vector3 targetVelocity = (transform.forward * curMovementInput.y + transform.right * curMovementInput.x) * moveSpeed;
         targetVelocity.y = rb.velocity.y;
         rb.velocity = Vector3.Lerp(rb.velocity, targetVelocity, Time.deltaTime * acceleration);
+    }
+
+    void CheckGround()
+    {
+        float checkDistance = 0.5f;
+        isGround = Physics.Raycast(transform.position, Vector3.down, checkDistance, layerMask);
+        if (isGround)
+        {
+            isJumping = false;
+        }
+        else
+        {
+            isJumping = true;
+        }
     }
 
     void CameraLook()
@@ -90,20 +108,26 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if(context.phase == InputActionPhase.Started)
+        if(context.phase == InputActionPhase.Started && isGround)
         {
             if (playerResource.uiResource.stamina.curValue >= 20f)
             {
                 rb.AddForce(Vector2.up * jumpPower, ForceMode.VelocityChange);
                 playerResource.uiResource.stamina.Subtract(20);
                 animationController.Jump();
+                isJumping = true;
             }
         }
     }
 
     void ExtraGravity()
     {
-        rb.AddForce(Vector2.down * extraGravity, ForceMode.VelocityChange);
+        if (!isJumping)
+        {
+            float gravityMultiplier = isJumping ? 0.5f : 2f;
+            rb.AddForce(Vector3.down * extraGravity * gravityMultiplier, ForceMode.Acceleration);
+        }
+
     }
 
     public void OnLook(InputAction.CallbackContext context)
