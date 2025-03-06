@@ -5,21 +5,20 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("References")]
     private Rigidbody rb;
-    public PlayerResource playerResource;
-    public AnimationController animationController;
-    public CharacterController characterController;
+    private PlayerResource playerResource;
+    private AnimationController animationController;
+    private CharacterController characterController;
 
-    [Header("Movement")]
-    public float moveSpeed;
-    public float jumpPower;
-    public float extraGravity;
-    public bool isGround;
-    public bool isJumping;
-    public LayerMask layerMask;
-    private Vector2 curMovementInput;
+    [Header("Movement Setting")]
+    public float speed;
+    public float gravity = 9.81f;
+    private float verticalVelocity;
+    public float jumpHeight;
+    private Vector3 curMovementInput;
 
-    [Header("Look")]
+    [Header("Look Setting")]
     public Transform cameraContainer;
     public float minXLook;
     public float maxXLook;
@@ -29,9 +28,9 @@ public class PlayerController : MonoBehaviour
     public bool canLook = true;
 
 
+
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
         playerResource = GetComponent<PlayerResource>();
         animationController = GetComponentInChildren<AnimationController>();
         characterController = GetComponent<CharacterController>();
@@ -45,7 +44,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        characterController
+        
     }
 
     private void LateUpdate()
@@ -59,48 +58,36 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
-        ExtraGravity();
-        CheckGround();
     }
 
     void Move()
     {
-        //Using Vector3.Lerp > making the player movement more smooth while moving after player stopped
-        float acceleration = 20f;
-        Vector3 targetVelocity = (transform.forward * curMovementInput.y + transform.right * curMovementInput.x) * moveSpeed;
-        targetVelocity.y = rb.velocity.y;
-        rb.velocity = Vector3.Lerp(rb.velocity, targetVelocity, Time.deltaTime * acceleration);
+        Vector3 move = transform.forward * curMovementInput.y + transform.right * curMovementInput.x;
+        move *= speed;
+        
+        move.y = VerticalForceCalculation();
+        characterController.Move(move * Time.deltaTime);
     }
 
-    void CheckGround()
+    private float VerticalForceCalculation()
     {
-        float checkDistance = 0.5f;
-        isGround = Physics.Raycast(transform.position, Vector3.down, checkDistance, layerMask);
-        if (isGround)
+        if (characterController.isGrounded) 
         {
-            isJumping = false;
+            verticalVelocity += -1f;
         }
         else
         {
-            isJumping = true;
+            verticalVelocity -= gravity * Time.deltaTime * 4f;
         }
-        
-    }
-
-    void CameraLook()
-    {
-        camCurXRot += mouseDelta.y * lookSensitivity;
-        camCurXRot = Mathf.Clamp(camCurXRot, minXLook, maxXLook);
-        cameraContainer.localEulerAngles = new Vector3(-camCurXRot, 0, 0);
-        transform.eulerAngles += new Vector3(0, mouseDelta.x * lookSensitivity, 0);
+        return verticalVelocity;
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        if(context.phase == InputActionPhase.Performed)
+        if (context.phase == InputActionPhase.Performed)
         {
             curMovementInput = context.ReadValue<Vector2>();
-            animationController.Move();
+            animationController.Move(); 
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
@@ -111,25 +98,24 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if(context.phase == InputActionPhase.Started && isGround)
+        if (context.phase == InputActionPhase.Started && characterController.isGrounded)
         {
-            if (playerResource.uiResource.stamina.curValue >= 20f)
-            {
-                rb.AddForce(Vector2.up * jumpPower, ForceMode.VelocityChange);
-                playerResource.uiResource.stamina.Subtract(20);
-                animationController.Jump();
-            }
+            verticalVelocity = Mathf.Sqrt(2f * gravity * jumpHeight);
+            animationController.Jump();
         }
     }
 
-    void ExtraGravity()
+    void CameraLook()
     {
-        float gravityMultiplier = isJumping ? 15f : 2f;
-        rb.AddForce(Vector3.down * extraGravity * gravityMultiplier, ForceMode.Acceleration);
-    }
+        camCurXRot += mouseDelta.y * lookSensitivity;
+        camCurXRot = Mathf.Clamp(camCurXRot, minXLook, maxXLook);
+        cameraContainer.localEulerAngles = new Vector3(-camCurXRot, 0, 0);
 
+        transform.eulerAngles += new Vector3(0, mouseDelta.x * lookSensitivity, 0);
+    }
     public void OnLook(InputAction.CallbackContext context)
     {
         mouseDelta = context.ReadValue<Vector2>();
     }
+
 }
