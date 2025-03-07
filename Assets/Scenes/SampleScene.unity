@@ -7861,7 +7861,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meshColliders: []
-  jumpSpring: {fileID: 0}
+  jumpSpring: {fileID: 2994632888651449723}
 --- !u!33 &6999616827643376604
 MeshFilter:
   m_ObjectHideFlags: 0
