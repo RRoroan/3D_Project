@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
     public float jumpHeight;
     private Vector3 curMovementInput;
     private float speed;
+    public bool SuperJumpReady;
 
     [Header("Look Setting")]
     public Transform cameraContainer;
@@ -41,7 +43,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        SuperJumpReady = false;
     }
 
     // Update is called once per frame
@@ -129,6 +131,18 @@ public class PlayerController : MonoBehaviour
         {
             verticalVelocity = Mathf.Sqrt(2f * gravity * jumpHeight);
             animationController.Jump();
+        }
+    }
+
+    public void SuperJump(InputAction.CallbackContext context)
+    {
+        if (SuperJumpReady)
+        {
+            if (context.phase == InputActionPhase.Started)
+            {
+                verticalVelocity = Mathf.Sqrt(10f * gravity * jumpHeight);
+                animationController.Jump();
+            }
         }
     }
 

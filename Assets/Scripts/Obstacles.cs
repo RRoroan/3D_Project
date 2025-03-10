@@ -4,56 +4,33 @@ using UnityEngine;
 
 public class Obstacles : MonoBehaviour
 {
-    public MeshCollider[] meshColliders;
-    public Transform jumpSpring;
-
+    public PlayerController controller;
     private void Awake()
     {
-        meshColliders = GetComponentsInChildren<MeshCollider>();
+        controller = CharacterManager.Instance.Player.controller;
     }
+
 
     private void Update()
     {
-        Jump();
+        
     }
 
-    bool CheckPlayer()
+    private void OnTriggerEnter(Collider other)
     {
-        Ray[] rays = new Ray[4]
+        if (other.CompareTag("Player"))
         {
-            new Ray(transform.position + (transform.forward * 0.5f) + (transform.up * 5f), Vector3.up),
-            new Ray(transform.position + (-transform.forward * 0.5f) + (transform.up * 5f), Vector3.up),
-            new Ray(transform.position + (transform.right * 0.5f) + (transform.up * 5f), Vector3.up),
-            new Ray(transform.position + (-transform.right * 0.5f) + (transform.up * 5f), Vector3.up)
-        };
-
-        foreach (Ray ray in rays)
-        {
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 1000f))
-            {
-                if (hit.collider.CompareTag("Player"))
-                {
-                    return true;
-                }
-            }
-            Debug.DrawRay(ray.origin, ray.direction, Color.yellow);
+            Debug.Log("Calling Super");
+            CharacterManager.Instance.Player.controller.SuperJumpReady = true;
         }
-        return false;
     }
 
-    bool PlayerAccept()
+    private void OnTriggerExit(Collider other)
     {
-        if (Input.GetKey(KeyCode.E))
-            return true;
-        else return false;
-    }
-
-    public void Jump()
-    {
-        if (PlayerAccept() && CheckPlayer())
+        if (other.CompareTag("Player"))
         {
-            Debug.Log("JUMP");
+            Debug.Log("player out");
+            CharacterManager.Instance.Player.controller.SuperJumpReady = false;
         }
     }
 }

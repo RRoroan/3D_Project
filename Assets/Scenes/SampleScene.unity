@@ -5710,6 +5710,8 @@ GameObject:
   - component: {fileID: 2978666815042544598}
   - component: {fileID: 5829323529915798586}
   - component: {fileID: 5829323529915798587}
+  - component: {fileID: 5829323529915798588}
+  - component: {fileID: 5829323529915798589}
   m_Layer: 0
   m_Name: Props_4a
   m_TagString: Untagged
@@ -6401,7 +6403,6 @@ GameObject:
   - component: {fileID: 4060269607247176685}
   - component: {fileID: 6724102154016380189}
   - component: {fileID: 6724102154016380190}
-  - component: {fileID: 6724102154016380191}
   m_Layer: 0
   m_Name: Props_4
   m_TagString: Untagged
@@ -6564,6 +6565,43 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -7159946465811131861, guid: 32812f864ffc68f45aa97b19014b7867, type: 3}
+--- !u!135 &5829323529915798588
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584773933712752151}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.6512511
+  m_Center: {x: 0.0000038146968, y: 1.4108539, z: -0.000011444091}
+--- !u!114 &5829323529915798589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584773933712752151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e915521dbeec6f14ba78f08607d3eb7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshColliders: []
+  jumpSpring: {fileID: 0}
+  controller: {fileID: 0}
+  jumpForce: 10
 --- !u!23 &5870750783817996468
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7848,20 +7886,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3729085003051603586, guid: 32812f864ffc68f45aa97b19014b7867, type: 3}
---- !u!114 &6724102154016380191
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4622522122923756464}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e915521dbeec6f14ba78f08607d3eb7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meshColliders: []
-  jumpSpring: {fileID: 2994632888651449723}
 --- !u!33 &6999616827643376604
 MeshFilter:
   m_ObjectHideFlags: 0
