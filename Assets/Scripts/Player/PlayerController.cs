@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -11,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private PlayerResource playerResource;
     private AnimationController animationController;
     private CharacterController characterController;
+    [SerializeField] private Obstacles obstacles;
 
     [Header("Movement Setting")]
     public float walkSpeed;
@@ -21,6 +23,7 @@ public class PlayerController : MonoBehaviour
     public float jumpHeight;
     private Vector3 curMovementInput;
     private float speed;
+    public float superJumpHeight;
     public bool SuperJumpReady;
 
     [Header("Look Setting")]
@@ -32,13 +35,14 @@ public class PlayerController : MonoBehaviour
     private Vector2 mouseDelta;
     public bool canLook = true;
 
-
+    public Action inventory;
 
     private void Awake()
     {
         playerResource = GetComponent<PlayerResource>();
         animationController = GetComponentInChildren<AnimationController>();
         characterController = GetComponent<CharacterController>();
+        obstacles = FindObjectOfType<Obstacles>();
     }
     // Start is called before the first frame update
     void Start()
@@ -140,8 +144,9 @@ public class PlayerController : MonoBehaviour
         {
             if (context.phase == InputActionPhase.Started)
             {
-                verticalVelocity = Mathf.Sqrt(10f * gravity * jumpHeight);
+                verticalVelocity = Mathf.Sqrt(2f * gravity * superJumpHeight);
                 animationController.Jump();
+                obstacles.JumpSpringUp();
             }
         }
     }
@@ -157,6 +162,14 @@ public class PlayerController : MonoBehaviour
     public void OnLook(InputAction.CallbackContext context)
     {
         mouseDelta = context.ReadValue<Vector2>();
+    }
+
+    public void OnInventory(InputAction.CallbackContext context)
+    {
+        if(context.phase == InputActionPhase.Started)
+        {
+            inventory?.Invoke();
+        }
     }
 
 }
